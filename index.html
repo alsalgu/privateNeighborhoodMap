@@ -10,6 +10,12 @@
     <div id="side-panel">
         <input type="button" value="Show Shops" data-bind="click: window.showMarkers">
         <input type="button" value="Clear" data-bind="click: window.clearMarkers">
+        <div id="coords">Your Current Location is: <span data-bind="text: searchModel.searchLat"></span>,
+            <span data-bind="text: searchModel.searchLng"></span></div>
+        <form name="search">
+            <input type="text" id="address" placeholder="Enter Location...">
+            <input type="button" value="Submit" id="submit" data-bind="click: window.codeAddress">
+        </form>
         <div id="shops">
             <table>
                 <thead>

@@ -1,4 +1,5 @@
 /* Global Variables */
+var geocoder;
 var map;
 var infowindow;
 var markers = [];
@@ -53,7 +54,7 @@ var defLocations = [{
   },
 ];
 
-/* Foursquare JSON Feed */
+/* Foursquare JSON Feed into Global Array */
 
 function searchNearby() {
   defLocations = [];
@@ -62,9 +63,9 @@ function searchNearby() {
   var version = '20170801';
   var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + '30.372921, -97.721386' + '&query=ramen';
 
-  $.getJSON(searchURL, function (result) {
+  $.getJSON(searchURL, function(result) {
     var venuesList = result.response.venues;
-    $.each(venuesList, function (i, val) {
+    $.each(venuesList, function(i, val) {
       defLocations.push({
         title: this.name,
         location: {
@@ -80,6 +81,7 @@ function searchNearby() {
 /* Google Maps Functionality */
 
 function initMap() {
+  geocoder = new google.maps.Geocoder();
   var center = new google.maps.LatLng(30.372921, -97.721386);
   map = new google.maps.Map(document.getElementById('googleMap'), {
     mapTypeId: 'roadmap',
@@ -107,6 +109,43 @@ function initMap() {
 
     markers[i].setMap(map);
   }
+}
+
+/* GeoCode Functionality */
+function codeAddress() {
+  var address = document.getElementById('address').value;
+  geocoder.geocode({
+    'address': address,
+  }, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      defLocations = [];
+      var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
+      var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
+      var version = '20170801';
+      var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng() + '&query=ramen';
+
+      $.getJSON(searchURL, function(result) {
+        var venuesList = result.response.venues;
+        $.each(venuesList, function(i, val) {
+          defLocations.push({
+            title: this.name,
+            location: {
+              lat: this.location.lat,
+              lng: this.location.lng,
+            },
+            venue: this.id,
+          });
+        });
+      });
+      
+
+      searchModel.searchLat(results[0].geometry.location.lat());
+      searchModel.searchLng(results[0].geometry.location.lng());
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
 }
 
 function clearMarkers() {
@@ -185,6 +224,11 @@ function Shop(title, venue, location, id) {
   this.venue = ko.observable(venue);
   this.location = ko.observable(location);
 }
+
+var searchModel = {
+  searchLat: ko.observable(30.372921),
+  searchLng: ko.observable(-97.721386)
+};
 
 var ViewModel = function(data) {
   var self = this;
