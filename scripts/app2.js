@@ -1,3 +1,4 @@
+
 /* Global Variables */
 var map;
 var infowindow;
@@ -21,7 +22,6 @@ $.getJSON(searchURL, function (result) {
       venue: this.id,
     });
   });
-
 });
 
 /* Google Maps Functionality */
@@ -80,7 +80,7 @@ function populateInfoWindow(marker, infowindow) {
     var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
     var version = '20170801';
     var venueID = marker.text;
-    var url = 'https://api.foursquare.com/v2/venues/' + venueID + '/?CLIENT_SECRET=' + CLIENT_SECRET + '&CLIENT_ID=' + CLIENT_ID + '&v=' + version;
+    var url = 'https://api.foursquare.com/v2/venues/' + venueID + '/?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version;
 
     $.ajax({
       url: url,
@@ -88,12 +88,7 @@ function populateInfoWindow(marker, infowindow) {
       success: function(data) {
         var currentVenue = data.response.venue;
         var placeName = currentVenue.name;
-        var placeAddress = currentVenue.location.formattedAddress;
-        var placeType = currentVenue.categories[0].name;
-        var placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
-        var placePhoto2 = '300x300';
-        var placePhoto3 = currentVenue.photos.groups[0].items[0].suffix;
-        infowindow.setContent('<div><strong>' + placeName + '</strong><br>' + placeType + '</div><img src=' + placePhoto1 + placePhoto2 + placePhoto3 + '> <div>' + placeAddress + '</div>');
+        infowindow.setContent(placeName);
       },
 
       error: function(data) {
