@@ -56,6 +56,7 @@ var defLocations = [{
 /* Foursquare JSON Feed */
 
 function searchNearby() {
+  defLocations = [];
   var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
   var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
   var version = '20170801';
