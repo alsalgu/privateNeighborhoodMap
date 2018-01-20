@@ -62,7 +62,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById('googleMap'), {
     mapTypeId: 'roadmap',
     center: center,
-    zoom: 12,
+    zoom: 5,
   });
 
   infowindow = new google.maps.InfoWindow();
@@ -78,7 +78,7 @@ function initMap() {
       id: i,
     });
     markers.push(marker);
-    marker.addListener('click', function() {
+    marker.addListener('click', function () {
       populateInfoWindow(this, infowindow);
       animateMarkers(this);
     });
@@ -92,18 +92,17 @@ function codeAddress() {
   var address = document.getElementById('address').value;
   geocoder.geocode({
     'address': address,
-  }, function(results, status) {
+  }, function (results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       defLocations = [];
       var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
       var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
       var version = '20170801';
       var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng() + '&query=ramen';
-
       map.setCenter(results[0].geometry.location);
-      $.getJSON(searchURL, function(result) {
+      $.getJSON(searchURL, function (result) {
           var venuesList = result.response.venues;
-          $.each(venuesList, function(i, val) {
+          $.each(venuesList, function (i, val) {
             defLocations.push({
               title: this.name,
               location: {
@@ -114,7 +113,7 @@ function codeAddress() {
             });
           });
         })
-        .done(function() {
+        .done(function () {
           for (var i = 0; i < defLocations.length; i++) {
             var position = defLocations[i].location;
             var title = defLocations[i].title;
@@ -123,10 +122,9 @@ function codeAddress() {
               title: title,
               animation: google.maps.Animation.DROP,
               text: defLocations[i].venue,
-              id: i,
             });
             markers.push(marker);
-            marker.addListener('click', function() {
+            marker.addListener('click', function () {
               populateInfoWindow(this, infowindow);
               animateMarkers(this);
             });
@@ -136,7 +134,6 @@ function codeAddress() {
 
           initialData.shops(defLocations);
         });
-      shops(defLocations);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -155,11 +152,16 @@ function showMarkers() {
   }
 }
 
+function deleteMarkers() {
+  clearMarkers();
+  markers = [];
+}
+
 function populateInfoWindow(marker, infowindow) {
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
     infowindow.setContent('');
-    infowindow.addListener('closeclick', function() {
+    infowindow.addListener('closeclick', function () {
       infowindow.marker = null;
     });
 
@@ -172,13 +174,13 @@ function populateInfoWindow(marker, infowindow) {
     $.ajax({
       url: url,
       dataType: 'json',
-      success: function(data) {
+      success: function (data) {
         var currentVenue = data.response.venue;
         var placeName = currentVenue.name;
         infowindow.setContent(placeName);
       },
 
-      error: function(data) {
+      error: function (data) {
         alert('ERROR: Unable to retrieve details from Foursquare - ' + data.status);
       },
     });
@@ -193,7 +195,7 @@ function animateMarkers(marker) {
     marker.setAnimation(null);
   } else {
     marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function() {
+    setTimeout(function () {
       marker.setAnimation(null);
     }, 1400);
   }
@@ -203,7 +205,7 @@ function refresh() {
   window.location.reload();
 }
 
-function gm_authFailure() {
+function gm_authFailure () {
   alert('The Key is Wrong, Buddy.');
 }
 
@@ -211,53 +213,49 @@ function mapError() {
   alert('Failed to Load Google Maps Script!');
 }
 
-
 /* Knockout */
 
 var shops = ko.observable(defLocations);
 
-var searchModel = {
-  searchLat: ko.observable(30.372921),
-  searchLng: ko.observable(-97.721386)
-};
-
-function Shop(title, venue, location) {
-  this.title = ko.observable(title);
-  this.venue = ko.observable(venue);
-  this.location = ko.observable(location);
-}
-
-var ViewModel = function(data) {
+var ViewModel = function (data) {
   var self = this;
   self.filter = ko.observable('');
   self.clickShop = ko.observable('');
   self.shops = data.shops;
-  self.filteredItems = ko.dependentObservable(function() {
+  self.noshops = ko.observable([{ title: 'Sorry, no results!', venue: '501831f5e4b06251be422605', location: { lat: 30.361154, lng: -97.71515 }, id: 0 }]);
+  self.filteredItems = ko.dependentObservable(function () {
     var filter = self.filter().toLowerCase();
-    if (!filter) {
-      for (var i = 0; i < markers.length; i++) {
-        marker = markers[i];
-        marker.setVisible(true);
-      }
-      return self.shops();
+    var shoplist = self.shops();
+    if (shoplist == 0) {
+      return self.noshops();
     } else {
-      for (var i = 0; i < markers.length; i++) {
-        marker = markers[i];
-        if (marker.title.toLowerCase().indexOf(filter) !== -1) {
+      if (!filter) {
+        for (var i = 0; i < markers.length; i++) {
+          marker = markers[i];
           marker.setVisible(true);
-          marker.setAnimation(4);
-        } else {
-          marker.setVisible(false);
+        }
+
+        return self.shops();
+      } else {
+        for (var i = 0; i < markers.length; i++) {
+          marker = markers[i];
+          if (marker.title.toLowerCase().indexOf(filter) !== -1) {
+            marker.setVisible(true);
+            marker.setAnimation(4);
+          } else {
+            marker.setVisible(false);
+          }
         }
       }
-      return ko.utils.arrayFilter(self.shops(), function(Shop) {
-        return Shop.title().toLowerCase().indexOf(filter) !== -1;
+
+      return ko.utils.arrayFilter(self.shops(), function (Shop) {
+        return Shop.title.toLowerCase().indexOf(filter) !== -1;
       });
     }
   }, ViewModel);
 
-  self.toggle = function(location) {
-    markers.forEach(function(marker) {
+  self.toggle = function (location) {
+    markers.forEach(function (marker) {
       if (marker.title == location.title) {
         google.maps.event.trigger(marker, 'click');
       }
@@ -266,7 +264,7 @@ var ViewModel = function(data) {
 };
 
 var initialData = {
-    shops: ko.observableArray(defLocations),
+  shops: ko.observableArray(defLocations),
 };
 
 ko.applyBindings(new ViewModel(initialData));
