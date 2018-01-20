@@ -54,30 +54,6 @@ var defLocations = [{
   },
 ];
 
-/* Foursquare JSON Feed into Global Array */
-
-function searchNearby() {
-  defLocations = [];
-  var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
-  var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
-  var version = '20170801';
-  var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + '30.372921, -97.721386' + '&query=ramen';
-
-  $.getJSON(searchURL, function(result) {
-    var venuesList = result.response.venues;
-    $.each(venuesList, function(i, val) {
-      defLocations.push({
-        title: this.name,
-        location: {
-          lat: this.location.lat,
-          lng: this.location.lng,
-        },
-        venue: this.id,
-      });
-    });
-  });
-}
-
 /* Google Maps Functionality */
 
 function initMap() {
@@ -111,37 +87,54 @@ function initMap() {
   }
 }
 
-/* GeoCode Functionality */
+/* GeoCode Functionality that uses Foursquare API to make Markers */
 function codeAddress() {
   var address = document.getElementById('address').value;
   geocoder.geocode({
     'address': address,
   }, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
-      map.setCenter(results[0].geometry.location);
       defLocations = [];
       var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
       var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
       var version = '20170801';
       var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng() + '&query=ramen';
 
+      map.setCenter(results[0].geometry.location);
       $.getJSON(searchURL, function(result) {
-        var venuesList = result.response.venues;
-        $.each(venuesList, function(i, val) {
-          defLocations.push({
-            title: this.name,
-            location: {
-              lat: this.location.lat,
-              lng: this.location.lng,
-            },
-            venue: this.id,
+          var venuesList = result.response.venues;
+          $.each(venuesList, function(i, val) {
+            defLocations.push({
+              title: this.name,
+              location: {
+                lat: this.location.lat,
+                lng: this.location.lng,
+              },
+              venue: this.id,
+            });
           });
-        });
-      });
-      
+        })
+        .done(function() {
+          for (var i = 0; i < defLocations.length; i++) {
+            var position = defLocations[i].location;
+            var title = defLocations[i].title;
+            var marker = new google.maps.Marker({
+              position: position,
+              title: title,
+              animation: google.maps.Animation.DROP,
+              text: defLocations[i].venue,
+              id: i,
+            });
+            markers.push(marker);
+            marker.addListener('click', function() {
+              populateInfoWindow(this, infowindow);
+              animateMarkers(this);
+            });
 
-      searchModel.searchLat(results[0].geometry.location.lat());
-      searchModel.searchLng(results[0].geometry.location.lng());
+            markers[i].setMap(map);
+          }
+        });
+
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
