@@ -78,7 +78,7 @@ function initMap() {
       id: i,
     });
     markers.push(marker);
-    marker.addListener('click', function () {
+    marker.addListener('click', function() {
       populateInfoWindow(this, infowindow);
       animateMarkers(this);
     });
@@ -92,7 +92,7 @@ function codeAddress() {
   var address = document.getElementById('address').value;
   geocoder.geocode({
     'address': address,
-  }, function (results, status) {
+  }, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       defLocations = [];
       var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
@@ -100,9 +100,9 @@ function codeAddress() {
       var version = '20170801';
       var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + results[0].geometry.location.lat() + ',' + results[0].geometry.location.lng() + '&query=ramen';
       map.setCenter(results[0].geometry.location);
-      $.getJSON(searchURL, function (result) {
+      $.getJSON(searchURL, function(result) {
           var venuesList = result.response.venues;
-          $.each(venuesList, function (i, val) {
+          $.each(venuesList, function(i, val) {
             defLocations.push({
               title: this.name,
               location: {
@@ -113,7 +113,7 @@ function codeAddress() {
             });
           });
         })
-        .done(function () {
+        .done(function() {
           for (var i = 0; i < defLocations.length; i++) {
             var position = defLocations[i].location;
             var title = defLocations[i].title;
@@ -124,7 +124,7 @@ function codeAddress() {
               text: defLocations[i].venue,
             });
             markers.push(marker);
-            marker.addListener('click', function () {
+            marker.addListener('click', function() {
               populateInfoWindow(this, infowindow);
               animateMarkers(this);
             });
@@ -161,7 +161,7 @@ function populateInfoWindow(marker, infowindow) {
   if (infowindow.marker != marker) {
     infowindow.marker = marker;
     infowindow.setContent('');
-    infowindow.addListener('closeclick', function () {
+    infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
 
@@ -174,13 +174,19 @@ function populateInfoWindow(marker, infowindow) {
     $.ajax({
       url: url,
       dataType: 'json',
-      success: function (data) {
+      success: function(data) {
         var currentVenue = data.response.venue;
         var placeName = currentVenue.name;
-        infowindow.setContent(placeName);
+        var placeAddress = currentVenue.location.formattedAddress;
+        var placeType = currentVenue.categories[0].name;
+        var placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
+        var placePhoto2 = "300x300";
+        var placePhoto3 = currentVenue.photos.groups[0].items[0].suffix;
+        var rating = currentVenue.rating;
+        infowindow.setContent("<div><strong>" + placeName + "</strong><br>" + placeType + "</div><img src='" + placePhoto1 + placePhoto2 + placePhoto3 + "'> <div>" + placeAddress + "</div>");
       },
 
-      error: function (data) {
+      error: function(data) {
         alert('ERROR: Unable to retrieve details from Foursquare - ' + data.status);
       },
     });
@@ -195,7 +201,7 @@ function animateMarkers(marker) {
     marker.setAnimation(null);
   } else {
     marker.setAnimation(google.maps.Animation.BOUNCE);
-    setTimeout(function () {
+    setTimeout(function() {
       marker.setAnimation(null);
     }, 1400);
   }
@@ -205,7 +211,7 @@ function refresh() {
   window.location.reload();
 }
 
-function gm_authFailure () {
+function gm_authFailure() {
   alert('The Key is Wrong, Buddy.');
 }
 
@@ -217,13 +223,21 @@ function mapError() {
 
 var shops = ko.observable(defLocations);
 
-var ViewModel = function (data) {
+var ViewModel = function(data) {
   var self = this;
   self.filter = ko.observable('');
   self.clickShop = ko.observable('');
   self.shops = data.shops;
-  self.noshops = ko.observable([{ title: 'Sorry, no results!', venue: '501831f5e4b06251be422605', location: { lat: 30.361154, lng: -97.71515 }, id: 0 }]);
-  self.filteredItems = ko.dependentObservable(function () {
+  self.noshops = ko.observable([{
+    title: 'Sorry, no results!',
+    venue: '501831f5e4b06251be422605',
+    location: {
+      lat: 30.361154,
+      lng: -97.71515
+    },
+    id: 0
+  }]);
+  self.filteredItems = ko.dependentObservable(function() {
     var filter = self.filter().toLowerCase();
     var shoplist = self.shops();
     if (shoplist == 0) {
@@ -248,14 +262,14 @@ var ViewModel = function (data) {
         }
       }
 
-      return ko.utils.arrayFilter(self.shops(), function (Shop) {
+      return ko.utils.arrayFilter(self.shops(), function(Shop) {
         return Shop.title.toLowerCase().indexOf(filter) !== -1;
       });
     }
   }, ViewModel);
 
-  self.toggle = function (location) {
-    markers.forEach(function (marker) {
+  self.toggle = function(location) {
+    markers.forEach(function(marker) {
       if (marker.title == location.title) {
         google.maps.event.trigger(marker, 'click');
       }
