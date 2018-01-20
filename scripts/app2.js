@@ -133,8 +133,10 @@ function codeAddress() {
 
             markers[i].setMap(map);
           }
-        });
 
+          initialData.shops(defLocations);
+        });
+      shops(defLocations);
     } else {
       alert('Geocode was not successful for the following reason: ' + status);
     }
@@ -212,16 +214,18 @@ function mapError() {
 
 /* Knockout */
 
-function Shop(title, venue, location, id) {
-  this.title = ko.observable(title);
-  this.venue = ko.observable(venue);
-  this.location = ko.observable(location);
-}
+var shops = ko.observable(defLocations);
 
 var searchModel = {
   searchLat: ko.observable(30.372921),
   searchLng: ko.observable(-97.721386)
 };
+
+function Shop(title, venue, location) {
+  this.title = ko.observable(title);
+  this.venue = ko.observable(venue);
+  this.location = ko.observable(location);
+}
 
 var ViewModel = function(data) {
   var self = this;
@@ -254,25 +258,15 @@ var ViewModel = function(data) {
 
   self.toggle = function(location) {
     markers.forEach(function(marker) {
-      if (marker.title == location.title()) {
+      if (marker.title == location.title) {
         google.maps.event.trigger(marker, 'click');
       }
     });
   };
 };
 
-/* Getting raw location data into Knockout Observables */
-
 var initialData = {
-  shops: ko.observableArray([]),
+    shops: ko.observableArray(defLocations),
 };
-
-var mappedData = ko.utils.arrayMap(defLocations, function(shop) {
-  return new Shop(shop.title, shop.venue, shop.location);
-});
-
-initialData.shops(mappedData);
-
-/* Executing KO */
 
 ko.applyBindings(new ViewModel(initialData));
