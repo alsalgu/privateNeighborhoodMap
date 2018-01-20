@@ -1,28 +1,80 @@
-
 /* Global Variables */
 var map;
 var infowindow;
 var markers = [];
 /* Location: {title: -blank-, venue: -blank-, location: {lat: -blank-, lng: -blank-}, id: -blank-}*/
-var defLocations = [];
+var defLocations = [{
+    title: 'Ramen Tatsu-Ya',
+    venue: '501831f5e4b06251be422605',
+    location: {
+      lat: 30.361154,
+      lng: -97.71515,
+    },
+  },
+  {
+    title: 'Michi Ramen',
+    venue: '50f74169e4b08087631dbf2d',
+    location: {
+      lat: 30.333353,
+      lng: -97.721413,
+    },
+  },
+  {
+    title: 'Daruma Ramen',
+    venue: '515632e9e4b00bf3a21b3bf4',
+    location: {
+      lat: 30.266527,
+      lng: -97.736489,
+    },
+  },
+  {
+    title: 'Hanabi Ramen',
+    venue: '52c8bebe11d21cada26b2a5e',
+    location: {
+      lat: 30.354803,
+      lng: -97.765086,
+    },
+  },
+  {
+    title: 'Kanji Ramen',
+    venue: '56f71be8498e940835c43997',
+    location: {
+      lat: 30.431106,
+      lng: -97.712949,
+    },
+  },
+  {
+    title: 'JINYA Ramen',
+    venue: '5768ca69498e74ee4edf87b9',
+    location: {
+      lat: 30.400302,
+      lng: -97.723252,
+    },
+  },
+];
 
 /* Foursquare JSON Feed */
 
-var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
-var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
-var version = '20170801';
-var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + '30.372921, -97.721386' + '&query=ramen';
+function searchNearby() {
+  var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
+  var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
+  var version = '20170801';
+  var searchURL = 'https://api.foursquare.com/v2/venues/search?client_secret=' + CLIENT_SECRET + '&client_id=' + CLIENT_ID + '&v=' + version + '&ll=' + '30.372921, -97.721386' + '&query=ramen';
 
-$.getJSON(searchURL, function (result) {
-  var venuesList = result.response.venues;
-  $.each(venuesList, function (i, val) {
-    defLocations.push({
-      title: this.name,
-      location: { lat: this.location.lat, lng: this.location.lng },
-      venue: this.id,
+  $.getJSON(searchURL, function (result) {
+    var venuesList = result.response.venues;
+    $.each(venuesList, function (i, val) {
+      defLocations.push({
+        title: this.name,
+        location: {
+          lat: this.location.lat,
+          lng: this.location.lng,
+        },
+        venue: this.id,
+      });
     });
   });
-});
+}
 
 /* Google Maps Functionality */
 
@@ -131,7 +183,6 @@ function Shop(title, venue, location, id) {
   this.title = ko.observable(title);
   this.venue = ko.observable(venue);
   this.location = ko.observable(location);
-  this.id = ko.observable(id);
 }
 
 var ViewModel = function(data) {
@@ -179,7 +230,7 @@ var initialData = {
 };
 
 var mappedData = ko.utils.arrayMap(defLocations, function(shop) {
-  return new Shop(shop.title, shop.venue, shop.location, shop.id);
+  return new Shop(shop.title, shop.venue, shop.location);
 });
 
 initialData.shops(mappedData);
