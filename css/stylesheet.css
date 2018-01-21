@@ -1,56 +1,20 @@
 body, html {
   height: 100%;
-}
-
-#googleMap {
-  position: relative;
-  height: 100%;
   width: 100%;
 }
 
-#side-panel {
+.map {
   position: absolute;
-  top: 10px;
-  left: 70%;
-  z-index: 5;
-  height: 95%;
-  width: 25%;
-  background-color: #fff;
-  padding: 5px;
-  border: 1px solid #999;
-  text-align: center;
-  font-family: 'Roboto', 'sans-serif';
-  line-height: 30px;
-  overflow: scroll;
+  top: 0;
+  left: 0;
+  z-index: 0;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-
-th, td {
-  text-align: left;
-  padding: 8px;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2
-}
-
-th {
-  background-color: #333;
-  color: white;
-}
-
-tr:hover {
-  background-color: #999;
-}
-
-tr:active {
-  background-color: #000;
-}
-
-h1 {
-  color: #333;
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    z-index: 2;
+    pointer-events: none;
 }

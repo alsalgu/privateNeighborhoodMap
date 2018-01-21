@@ -2,42 +2,54 @@
 <html>
 
 <head>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-    <title>Find-A-Noodle</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <title>Find-A-Noodle</title>
+  <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 </head>
 
 <body>
-    <div id="side-panel">
-        <input type="button" value="Show Shops" data-bind="click: window.showMarkers">
-        <input type="button" value="Clear" data-bind="click: window.clearMarkers">
-        <form name="search">
-            <input type="text" id="address" placeholder="Enter Location...">
-            <input type="button" value="Submit" id="submit" data-bind="click: window.codeAddress">
-        </form>
-        <div id="shops">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Shop</th>
-                    </tr>
-                </thead>
-                <tbody data-bind="foreach: filteredItems()">
-                    <tr data-bind="click: $parent.toggle">
-                        <td id="listTitle" data-bind="text: $data.title"></td>
-                    </tr>
-                </tbody>
-            </table>
+  <div id="googleMap" class="h-100"></div>
+  <div class="overlay row justify-content-between">
+    <div id="main-panel" class="col-2 bg-primary h-100" style="pointer-events: auto"></div>
+    <div id="side-panel" class="col-2 rounded p-2 mt-2 mb-2" style="pointer-events: auto; overflow: auto">
+      <input type="button" class="btn btn-primary" value="Show Shops" data-bind="click: window.showMarkers">
+      <input type="button" class="btn btn-primary" value="Clear" data-bind="click: window.clearMarkers">
+      <div class="input-group">
+        <input class="form-control" type="text" id="address" placeholder="Enter Location...">
+        <div class="input-group-append"><input type="button" class="btn btn-primary" value="Submit" id="submit" data-bind="click: window.codeAddress">
         </div>
-        <div id="filter">
-            <input data-bind="value: filter, valueUpdate: 'afterkeydown'">
-            <input type="button" value="Reset" data-bind="click: window.refresh;">
+      </div>
+      <div id="filter" class="mt-1">
+        <div class="input-group">
+          <input class="form-control" data-bind="value: filter, valueUpdate: 'afterkeydown'" placeholder="Filter List..">
+          <div class="input-group-append">
+            <input type="button" class="btn btn-primary" value="Reset" data-bind="click: window.refresh;">
+          </div>
         </div>
+      </div>
+      <div id="shops">
+        <table class="table table-hover table-striped table-primary">
+          <thead class="bg-primary">
+            <tr>
+              <th class="text-light">Shop Name</th>
+            </tr>
+          </thead>
+          <tbody data-bind="foreach: filteredItems()">
+            <tr data-bind="click: $parent.toggle">
+              <td id="listTitle" data-bind="text: $data.title"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div id="googleMap"></div>
-    <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
-    <script src="scripts/lib/jquery-3.2.1.min.js"></script>
-    <script src="scripts/lib/knockout-3.4.2.js"></script>
-    <script src="scripts/app2.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARV76QjC0HDKXP0ru9Ye4kyAH8N5UUEME&callback=initMap" async defer onerror="mapError()"></script>
+  </div>
+  <script src="scripts/lib/jquery-3.2.1.min.js"></script>
+  <script src="scripts/lib/knockout-3.4.2.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  <script src="scripts/app2.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARV76QjC0HDKXP0ru9Ye4kyAH8N5UUEME&callback=initMap" async defer onerror="mapError()"></script>
 </body>
+
 </html>
