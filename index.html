@@ -10,9 +10,13 @@
 
 <body>
   <div id="googleMap" class="h-100"></div>
-  <div class="overlay row justify-content-between">
-    <div id="main-panel" class="col-2 bg-primary h-100" style="pointer-events: auto"></div>
-    <div id="side-panel" class="col-2 rounded p-2 mt-2 mb-2" style="pointer-events: auto; overflow: auto">
+  <div class="overlay row">
+    <div id="main-panel" class="collapse show col-2 bg-primary h-100" style="pointer-events: auto">
+      <div class="w-100 bg-white rounded-circle m-2"><img src="img/fullicon.png" class="w-100"></div>
+      <div class="m-2"><h1 class="text-white">Find-A-Noodle</h1></div>
+    </div>
+    <button class="btn btn-primary h-25" data-toggle="collapse" data-target="#main-panel" style="pointer-events: auto;">+</button>
+    <div id="side-panel" class="col-2 rounded p-2 mt-2 mb-2 h-100" style="pointer-events: auto; overflow: auto; left: 80%; position: fixed;">
       <input type="button" class="btn btn-primary" value="Show Shops" data-bind="click: window.showMarkers">
       <input type="button" class="btn btn-primary" value="Clear" data-bind="click: window.clearMarkers">
       <div class="input-group">
