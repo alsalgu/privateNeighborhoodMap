@@ -542,7 +542,7 @@ var ViewModel = function(data) {
 
   self.toggle = function(location) {
     markers.forEach(function(marker) {
-      if (marker.title == location.title) {
+      if (marker.text == location.venue) {
         google.maps.event.trigger(marker, 'click');
       }
     });
