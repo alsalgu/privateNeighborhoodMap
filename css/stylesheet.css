@@ -20,3 +20,7 @@ html, body {
   overflow: auto;
   min-width: 260px;
 }
+
+.font {
+  font-family: 'Lemon', cursive;
+}
