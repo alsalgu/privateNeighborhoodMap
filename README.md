@@ -24,7 +24,7 @@ Just a few noodle shops in Austin. Filter them, click on them to see Foursquare 
 ### Setting Up
     Find yourself a server to host all these files on, my dude, or you can just open up 'index.html' straight from the folder.
 ---
-### Using the BirdWatch App
+### Using the Noodle App
 
     Open up 'index.html' and click around.
 
