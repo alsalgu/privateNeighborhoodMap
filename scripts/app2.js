@@ -432,7 +432,7 @@ function populateInfoWindow(marker, infowindow) {
         };
 
         if (!$.isArray(currentVenue.photos.groups) || !currentVenue.photos.groups.length) {
-          picURL = "No picture!";
+          picURL = '<img src="img/medicon.png">';
         } else {
           placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
           placePhoto2 = "300x300";
