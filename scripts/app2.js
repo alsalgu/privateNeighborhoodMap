@@ -60,249 +60,223 @@ function initMap() {
   geocoder = new google.maps.Geocoder();
   var center = new google.maps.LatLng(30.372921, -97.721386);
   var styledMapType = new google.maps.StyledMapType(
-    [
-        {
-            'featureType': 'all',
-            'elementType': 'labels',
-            'stylers': [
-                {
-                    'visibility': 'off'
-                },
-                {
-                    'color': '#f49f53'
-                }
-            ]
-        },
-        {
-            'featureType': 'landscape',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#fff0e4'
-                },
-                {
-                    'lightness': -7
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.business',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#645c20'
-                },
-                {
-                    'lightness': 38
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.government',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#9e5916'
-                },
-                {
-                    'lightness': 46
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.medical',
-            'elementType': 'geometry.fill',
-            'stylers': [
-                {
-                    'color': '#813033'
-                },
-                {
-                    'lightness': 38
-                },
-                {
-                    'visibility': 'off'
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.park',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#645c20'
-                },
-                {
-                    'lightness': 39
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.school',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#a95521'
-                },
-                {
-                    'lightness': 35
-                }
-            ]
-        },
-        {
-            'featureType': 'poi.sports_complex',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#9e5916'
-                },
-                {
-                    'lightness': 32
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#813033'
-                },
-                {
-                    'lightness': 43
-                },
-                {
-                    'visibility': 'on'
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'labels',
-            'stylers': [
-                {
-                    'visibility': 'off'
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'labels.text',
-            'stylers': [
-                {
-                    'visibility': 'simplified'
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'labels.text.fill',
-            'stylers': [
-                {
-                    'visibility': 'on'
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'labels.text.stroke',
-            'stylers': [
-                {
-                    'visibility': 'on'
-                },
-                {
-                    'color': '#ffffff'
-                }
-            ]
-        },
-        {
-            'featureType': 'road',
-            'elementType': 'labels.icon',
-            'stylers': [
-                {
-                    'visibility': 'off'
-                }
-            ]
-        },
-        {
-            'featureType': 'road.local',
-            'elementType': 'geometry.fill',
-            'stylers': [
-                {
-                    'color': '#f19f53'
-                },
-                {
-                    'weight': 1.3
-                },
-                {
-                    'visibility': 'on'
-                },
-                {
-                    'lightness': 16
-                }
-            ]
-        },
-        {
-            'featureType': 'road.local',
-            'elementType': 'geometry.stroke',
-            'stylers': [
-                {
-                    'color': '#f19f53'
-                },
-                {
-                    'lightness': -10
-                }
-            ]
-        },
-        {
-            'featureType': 'transit',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'lightness': 38
-                }
-            ]
-        },
-        {
-            'featureType': 'transit.line',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'color': '#813033'
-                },
-                {
-                    'lightness': 22
-                }
-            ]
-        },
-        {
-            'featureType': 'transit.station',
-            'elementType': 'all',
-            'stylers': [
-                {
-                    'visibility': 'off'
-                }
-            ]
-        },
-        {
-            "featureType": "water",
-            "elementType": "all",
-            "stylers": [
-                {
-                    "color": "#1994bf"
-                },
-                {
-                    "saturation": -69
-                },
-                {
-                    "gamma": 0.99
-                },
-                {
-                    "lightness": 43
-                }
-            ]
-        }
-    ],
-            {name: 'Styled Map'});
+    [{
+        'featureType': 'all',
+        'elementType': 'labels',
+        'stylers': [{
+            'visibility': 'off'
+          },
+          {
+            'color': '#f49f53'
+          }
+        ]
+      },
+      {
+        'featureType': 'landscape',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#fff0e4'
+          },
+          {
+            'lightness': -7
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.business',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#645c20'
+          },
+          {
+            'lightness': 38
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.government',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#9e5916'
+          },
+          {
+            'lightness': 46
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.medical',
+        'elementType': 'geometry.fill',
+        'stylers': [{
+            'color': '#813033'
+          },
+          {
+            'lightness': 38
+          },
+          {
+            'visibility': 'off'
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.park',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#645c20'
+          },
+          {
+            'lightness': 39
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.school',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#a95521'
+          },
+          {
+            'lightness': 35
+          }
+        ]
+      },
+      {
+        'featureType': 'poi.sports_complex',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#9e5916'
+          },
+          {
+            'lightness': 32
+          }
+        ]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#813033'
+          },
+          {
+            'lightness': 43
+          },
+          {
+            'visibility': 'on'
+          }
+        ]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'labels',
+        'stylers': [{
+          'visibility': 'off'
+        }]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'labels.text',
+        'stylers': [{
+          'visibility': 'simplified'
+        }]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'labels.text.fill',
+        'stylers': [{
+          'visibility': 'on'
+        }]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'labels.text.stroke',
+        'stylers': [{
+            'visibility': 'on'
+          },
+          {
+            'color': '#ffffff'
+          }
+        ]
+      },
+      {
+        'featureType': 'road',
+        'elementType': 'labels.icon',
+        'stylers': [{
+          'visibility': 'off'
+        }]
+      },
+      {
+        'featureType': 'road.local',
+        'elementType': 'geometry.fill',
+        'stylers': [{
+            'color': '#f19f53'
+          },
+          {
+            'weight': 1.3
+          },
+          {
+            'visibility': 'on'
+          },
+          {
+            'lightness': 16
+          }
+        ]
+      },
+      {
+        'featureType': 'road.local',
+        'elementType': 'geometry.stroke',
+        'stylers': [{
+            'color': '#f19f53'
+          },
+          {
+            'lightness': -10
+          }
+        ]
+      },
+      {
+        'featureType': 'transit',
+        'elementType': 'all',
+        'stylers': [{
+          'lightness': 38
+        }]
+      },
+      {
+        'featureType': 'transit.line',
+        'elementType': 'all',
+        'stylers': [{
+            'color': '#813033'
+          },
+          {
+            'lightness': 22
+          }
+        ]
+      },
+      {
+        'featureType': 'transit.station',
+        'elementType': 'all',
+        'stylers': [{
+          'visibility': 'off'
+        }]
+      },
+      {
+        "featureType": "water",
+        "elementType": "all",
+        "stylers": [{
+            "color": "#1994bf"
+          },
+          {
+            "saturation": -69
+          },
+          {
+            "gamma": 0.99
+          },
+          {
+            "lightness": 43
+          }
+        ]
+      }
+    ], {
+      name: 'Styled Map'
+    });
 
   map = new google.maps.Map(document.getElementById('googleMap'), {
     center: center,
@@ -345,6 +319,7 @@ function codeAddress() {
     'address': address,
   }, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
+      deleteMarkers();
       defLocations = [];
       var CLIENT_SECRET = '0HW5I3K1UJHUVP2JC0FYWWIF03ZG1NOSCVOAA5XU4MUZ502R';
       var CLIENT_ID = 'DUVIVE2GZV12HUGHAOHVWM4KABWCRQXY10LGQMRNDBNLQFNG';
@@ -382,6 +357,7 @@ function codeAddress() {
             });
 
             markers[i].setMap(map);
+            showMarkers();
           }
 
           initialData.shops(defLocations);
@@ -455,8 +431,8 @@ function populateInfoWindow(marker, infowindow) {
           placeType = "Sorry, no category listed!";
         };
 
-        if ( !$.isArray(currentVenue.photos.groups) ||  !currentVenue.photos.groups.length ) {
-          picURL = "):";
+        if (!$.isArray(currentVenue.photos.groups) || !currentVenue.photos.groups.length) {
+          picURL = "No picture!";
         } else {
           placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
           placePhoto2 = "300x300";
@@ -474,7 +450,7 @@ function populateInfoWindow(marker, infowindow) {
           '<div class="bg-white text-center text-primary border border-primary p-2 rounded m-0 align-items-center">' +
           '<h4>' +
           placeName +
-          '</h4>'+
+          '</h4>' +
           picURL +
           '<div class="font-weight-bold pt-1">' + placeType + ' ☆' + rating + '</div>' +
           '<div class="pt-1"><h6>' + placeAddress + '</h6></div>' +
