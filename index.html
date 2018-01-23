@@ -2,52 +2,57 @@
 <html>
 
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
   <title>Find-A-Noodle</title>
   <link rel="stylesheet" href="css/stylesheet.css" type="text/css">
   <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
 </head>
 
-<body>
-  <div id="googleMap" class="h-100"></div>
-  <div class="overlay row">
-    <div id="main-panel" class="collapse show col-2 bg-primary h-100" style="pointer-events: auto">
-      <div class="w-100 bg-white rounded-circle m-2"><img src="img/fullicon.png" class="w-100"></div>
-      <div class="m-2"><h1 class="text-white">Find-A-Noodle</h1></div>
-    </div>
-    <button class="btn btn-primary h-25" data-toggle="collapse" data-target="#main-panel" style="pointer-events: auto;">+</button>
-    <div id="side-panel" class="col-2 rounded p-2 mt-2 mb-2 h-100" style="pointer-events: auto; overflow: auto; left: 80%; position: fixed;">
-      <input type="button" class="btn btn-primary" value="Show Shops" data-bind="click: window.showMarkers">
-      <input type="button" class="btn btn-primary" value="Clear" data-bind="click: window.clearMarkers">
-      <div class="input-group">
-        <input class="form-control" type="text" id="address" placeholder="Enter Location...">
-        <div class="input-group-append"><input type="button" class="btn btn-primary" value="Submit" id="submit" data-bind="click: window.codeAddress">
-        </div>
+<body><div class="wrapper h-100 w-100">
+  <div class="container-fluid h-100 w-100 p-0">
+    <div id="googleMap" class="h-100 w-100"></div>
+  </div>
+  <div class="container-fluid overlay h-100">
+    <div class="row h-100 justify-content-between flex-nowrap">
+      <div id="main-panel" class="col-2 bg-primary h-100" style="pointer-events: auto; min-width: 200px;">
+        <div id="title" class="text-center">
+          <h1 class="text-white">Find-A-Noodle</h1></div>
+        <div id="entry" class="bg-white rounded">Henlo</div>
       </div>
-      <div id="filter" class="mt-1">
+      <div id="side-panel" class="col-2 rounded sidepanel p-0">
+        <input type="button" class="btn btn-primary" value="Show Shops" data-bind="click: window.showMarkers">
+        <input type="button" class="btn btn-primary" value="Clear" data-bind="click: window.clearMarkers">
         <div class="input-group">
-          <input class="form-control" data-bind="value: filter, valueUpdate: 'afterkeydown'" placeholder="Filter List..">
-          <div class="input-group-append">
-            <input type="button" class="btn btn-primary" value="Reset" data-bind="click: window.refresh;">
+          <input class="form-control" type="text" id="address" placeholder="Enter Location...">
+          <div class="input-group-append"><input type="button" class="btn btn-primary" value="Submit" id="submit" data-bind="click: window.codeAddress">
           </div>
         </div>
-      </div>
-      <div id="shops">
-        <table class="table table-hover table-striped table-primary">
-          <thead class="bg-primary">
-            <tr>
-              <th class="text-light">Shop Name</th>
-            </tr>
-          </thead>
-          <tbody data-bind="foreach: filteredItems()">
-            <tr data-bind="click: $parent.toggle">
-              <td id="listTitle" data-bind="text: $data.title"></td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="filter" class="mt-1">
+          <div class="input-group">
+            <input class="form-control" data-bind="value: filter, valueUpdate: 'afterkeydown'" placeholder="Filter List..">
+            <div class="input-group-append">
+              <input type="button" class="btn btn-primary" value="Reset" data-bind="click: window.refresh;">
+            </div>
+          </div>
+        </div>
+        <div id="shops">
+          <table class="table table-hover table-striped table-primary">
+            <thead class="bg-primary">
+              <tr>
+                <th class="text-light">Shop Name</th>
+              </tr>
+            </thead>
+            <tbody data-bind="foreach: filteredItems()">
+              <tr data-bind="click: $parent.toggle">
+                <td id="listTitle" data-bind="text: $data.title"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
+  </div></div>
   <script src="scripts/lib/jquery-3.2.1.min.js"></script>
   <script src="scripts/lib/knockout-3.4.2.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
