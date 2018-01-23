@@ -428,19 +428,54 @@ function populateInfoWindow(marker, infowindow) {
       dataType: 'json',
       success: function(data) {
         var currentVenue = data.response.venue;
-        var placeName = currentVenue.name;
-        var placeAddress = currentVenue.location.formattedAddress;
-        var placeType = currentVenue.categories[0].name;
-        var placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
-        var placePhoto2 = "300x300";
-        var placePhoto3 = currentVenue.photos.groups[0].items[0].suffix;
-        var rating = currentVenue.rating;
+        var placeName;
+        var placeAddress;
+        var placeType;
+        var picURL;
+        var placePhoto1;
+        var placePhoto2;
+        var placePhoto3;
+        var rating;
+
+        if (currentVenue.name != null) {
+          placeName = currentVenue.name;
+        } else {
+          placeName = "Sorry, no name listed!";
+        };
+
+        if (currentVenue.location.formattedAddress != null) {
+          placeAddress = currentVenue.location.formattedAddress;
+        } else {
+          placeAddress = "Sorry, no address listed!";
+        };
+
+        if (currentVenue.categories[0].name != null) {
+          placeType = currentVenue.categories[0].name;
+        } else {
+          placeType = "Sorry, no category listed!";
+        };
+
+        if ( !$.isArray(currentVenue.photos.groups) ||  !currentVenue.photos.groups.length ) {
+          picURL = "):";
+        } else {
+          placePhoto1 = currentVenue.photos.groups[0].items[0].prefix;
+          placePhoto2 = "300x300";
+          placePhoto3 = currentVenue.photos.groups[0].items[0].suffix;
+          picURL = '<img src="' + placePhoto1 + placePhoto2 + placePhoto3 + '">';
+
+        };
+
+        if (currentVenue.rating != null) {
+          rating = currentVenue.rating;
+        } else {
+          rating = "No rating!";
+        };
         infowindow.setContent(
           '<div class="bg-white text-center text-primary border border-primary p-2 rounded m-0 align-items-center">' +
           '<h4>' +
           placeName +
           '</h4>'+
-          '<img src="' + placePhoto1 + placePhoto2 + placePhoto3 + '">' +
+          picURL +
           '<div class="font-weight-bold pt-1">' + placeType + ' ☆' + rating + '</div>' +
           '<div class="pt-1"><h6>' + placeAddress + '</h6></div>' +
           '</div>'
