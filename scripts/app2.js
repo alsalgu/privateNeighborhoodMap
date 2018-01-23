@@ -544,6 +544,9 @@ var ViewModel = function(data) {
     markers.forEach(function(marker) {
       if (marker.text == location.venue) {
         google.maps.event.trigger(marker, 'click');
+        google.maps.event.addListener(marker, 'click', function() {
+          map.panTo(marker.getPosition());
+        });
       }
     });
   };
