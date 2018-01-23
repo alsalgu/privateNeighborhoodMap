@@ -435,7 +435,16 @@ function populateInfoWindow(marker, infowindow) {
         var placePhoto2 = "300x300";
         var placePhoto3 = currentVenue.photos.groups[0].items[0].suffix;
         var rating = currentVenue.rating;
-        infowindow.setContent("<div><strong>" + placeName + "</strong><br>" + placeType + "</div><img src='" + placePhoto1 + placePhoto2 + placePhoto3 + "'> <div>" + placeAddress + "</div>");
+        infowindow.setContent(
+          '<div class="bg-white text-center text-primary border border-primary p-2 rounded m-0 align-items-center">' +
+          '<h4>' +
+          placeName +
+          '</h4>'+
+          '<img src="' + placePhoto1 + placePhoto2 + placePhoto3 + '">' +
+          '<div class="font-weight-bold pt-1">' + placeType + ' ☆' + rating + '</div>' +
+          '<div class="pt-1"><h6>' + placeAddress + '</h6></div>' +
+          '</div>'
+        );
       },
 
       error: function(data) {
